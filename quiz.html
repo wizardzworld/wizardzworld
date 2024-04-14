@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harry Potter Quiz</title>
+  <style>
+    body {
+      font-family: 'Garamond', serif;
+      background-color: #0D1B2A;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      background-color: #000;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      padding: 40px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'HarryPotter';
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #FFD700;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    #startQuizBtn {
+      margin-bottom: 20px;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFD700;
+      color: #0D1B2A;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #startQuizBtn:hover {
+      background-color: #FFC200;
+    }
+
+    #quizQuestion {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .quizOption {
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      background-color: #3D9970;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1.2rem;
+    }
+
+    .quizOption:hover {
+      background-color: #2E7E5E;
+    }
+
+    #nextQuestionBtn {
+      display: none;
+      margin-top: 30px;
+      padding: 15px 40px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFD700;
+      color: #0D1B2A;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #nextQuestionBtn:hover {
+      background-color: #FFC200;
+    }
+
+    .quizDialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(0, 0, 0, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .dialogContent {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .dialogBtn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 40px;
+      border: none;
+      border-radius: 10px;
+      background-color: #FFD700;
+      color: #0D1B2A;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .dialogBtn:hover {
+      background-color: #FFC200;
+    }
+
+    @font-face {
+      font-family: 'HarryPotter';
+      src: url('https://fonts.gstatic.com/s/gobold/v6/L0x8DFMxk1MP9K3RvA.woff2');
+      font-weight: bold;
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Harry Potter Quiz</h1>
+    <button id="startQuizBtn">Start Quiz</button>
+    <div id="quizContent" style="display: none;">
+      <div id="quizQuestion"></div>
+      <div id="quizOptions"></div>
+      <button id="nextQuestionBtn">Next</button>
+      <div id="dialogsContainer">
+        <div id="quizDialog" class="quizDialog">
+          <div id="dialogContent" class="dialogContent"></div>
+          <button id="dialogBtn" class="dialogBtn">OK</button>
+        </div>
+
+        <div id="winDialog" class="quizDialog">
+          <div id="winDialogContent" class="dialogContent"></div>
+          <div id="productContainer" class="product"></div>
+          <button id="winDialogBtn" class="dialogBtn">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is the capital of France?",
+        options: ["Paris", "London", "Berlin", "Rome"],
+        answer: "Paris"
+      },
+      {
+        question: "Who wrote 'To Kill a Mockingbird'?",
+        options: ["J.K. Rowling", "Harper Lee", "George Orwell", "F. Scott Fitzgerald"],
+        answer: "Harper Lee"
+      },
+      // Add more questions here...
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+    const quizContent = document.getElementById('quizContent');
+    const questionDiv = document.getElementById('quizQuestion');
+    const optionsDiv = document.getElementById('quizOptions');
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    const dialog = document.getElementById('quizDialog');
+    const dialogContent = document.getElementById('dialogContent');
+    const dialogBtn = document.getElementById('dialogBtn');
+    const winDialog = document.getElementById('winDialog');
+    const winDialogContent = document.getElementById('winDialogContent');
+    const winDialogBtn = document.getElementById('winDialogBtn');
+
+    // Function to display current question and options
+    function displayQuestion() {
+      questionDiv.textContent = questions[currentQuestion].question;
+      optionsDiv.innerHTML = '';
+      questions[currentQuestion].options.forEach((option) => {
+        const optionDiv = document.createElement('div');
+        optionDiv.classList.add('quizOption');
+        optionDiv.textContent = option;
+        optionDiv.addEventListener('click', () => selectOption(option));
+        optionsDiv.appendChild(optionDiv);
+      });
+    }
+
+    // Function to handle option selection
+    function selectOption(option) {
+      optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
+        opt.removeEventListener('click', () => {});
+        opt.style.pointerEvents = 'none';
+      });
+      if (option === questions[currentQuestion].answer) {
+        showDialog("Correct Answer!", "#32CD32");
+        score++;
+      } else {
+        showDialog("Wrong Answer!", "#FF6347");
+      }
+    }
+
+    // Function to display dialog
+    function showDialog(message, color) {
+      dialogContent.textContent = message;
+      dialogContent.style.color = color;
+      dialog.style.display = 'block';
+    }
+
+    // Function to close dialog and proceed to next question or show score
+    function closeDialog() {
+      dialog.style.display = 'none';
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+      } else {
+        questionDiv.textContent = `End of Quiz. Your Score: ${score}/${questions.length}`;
+        optionsDiv.innerHTML = '';
+        nextBtn.style.display = 'none';
+        showWinDialog(); // Display "You Win" dialog at the end
+      }
+    }
+
+    // Event listener for next button
+    nextBtn.addEventListener('click', () => {
+      closeDialog();
+    });
+
+    // Event listener for dialog button
+    dialogBtn.addEventListener('click', () => {
+      closeDialog();
+    });
+
+    // Display first question on page load
+    displayQuestion();
+
+    // Additional code for displaying "You Win" dialog with product suggestion
+    const products = [
+      {
+        name: "Harry Potter Magic Wands",
+        image: "https://wizardzworld.com/cdn/shop/files/S6e9af013a6114866a699c97b6c692168q.webp?v=1711706961&width=200",
+        link: "https://wizardzworld.com/products/harry-potter-magic-wands?country=US"
+      },
+      {
+        name: "Golden Snitch Pocket Watches",
+        image: "https://cdn.shopify.com/s/files/1/0595/9604/6397/files/S870b5303075742f6901bd88275d6d8150.webp?v=1712129712&width=200",
+        link: "https://wizardzworld.com/products/hp-themed-pocket-watches?variant=41122661466173"
+      },
+      {
+        name: "Marauder's Map Pocket Watch",
+        image: "https://wizardzworld.com/cdn/shop/files/Bronze-The-Marauder-s-Map-Design-Pendant-Pocket-Watch-Old-Fashion-Souvenir-Necklace-Clock-Gifts-for-3558990850.jpg?v=1712129712&width=200",
+        link: "https://wizardzworld.com/products/new-arrival-map-bronze-quartz-pocket-watch-with-pendant-necklace-men-womens-watches-gift?country=US"
+      },
+      {
+        name: "Horcrux Pocket Watches!",
+        image: "https://wizardzworld.com/cdn/shop/files/m_63fa9d966149732373b3cd5d.jpg?v=1712129712&width=200",
+        link: "https://wizardzworld.com/products/horcrux-pocket-watches?country=US"
+      },
+      {
+        name: "Deathly Hallows Pendant Necklace",
+        image: "https://wizardzworld.com/cdn/shop/files/S9df21cec79fb43ad9b9c24cbc28fb743p.webp?v=1712679890&width=200",
+        link: "https://wizardzworld.com/products/deathly-hallows-pendant-necklace"
+      }
+    ];
+
+    // Function to display "You Win" dialog with product suggestion
+    function showWinDialog() {
+      const randomProduct = products[Math.floor(Math.random() * products.length)];
+      winDialogContent.innerHTML = `
+        <h2>Congratulations! You've completed the quiz!</h2>
+        <h4>You Won Free ${randomProduct.name}</h4>
+        <div id="productContainer" class="product">
+          <img src="${randomProduct.image}" alt="${randomProduct.name}">
+          <br><br><br>
+          <a href="${randomProduct.link}" class="product-btn" style="background-color: #FFC200; color: black; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
+        </div>
+      `;
+      winDialog.style.display = 'block';
+    }
+
+    // Event listener for win dialog button
+    winDialogBtn.addEventListener('click', () => {
+      winDialog.style.display = 'none';
+    });
+
+    // Event listener for start quiz button
+    const startQuizBtn = document.getElementById('startQuizBtn');
+    startQuizBtn.addEventListener('click', () => {
+      startQuizBtn.style.display = 'none'; // Hide start button
+      quizContent.style.display = 'block'; // Show quiz content
+    });
+  </script>
+</body>
+</html>
