@@ -34,7 +34,10 @@
       text-shadow: 2px 2px 4px #000;
     }
 
-    #startQuizBtn {
+    #startQuizBtn,
+    #nextQuestionBtn,
+    .dialogBtn,
+    .product-btn {
       margin-bottom: 20px;
       padding: 15px 40px;
       border: none;
@@ -44,15 +47,6 @@
       font-size: 1.2rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
-    }
-
-    #startQuizBtn:hover {
-      background-color: #FFC200;
-    }
-
-    #quizQuestion {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
     }
 
     .quizOption {
@@ -63,27 +57,6 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       font-size: 1.2rem;
-    }
-
-    .quizOption:hover {
-      background-color: #2E7E5E;
-    }
-
-    #nextQuestionBtn {
-      display: none;
-      margin-top: 30px;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 10px;
-      background-color: #FFD700;
-      color: #0D1B2A;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #nextQuestionBtn:hover {
-      background-color: #FFC200;
     }
 
     .quizDialog {
@@ -109,33 +82,58 @@
       }
     }
 
-    .dialogContent {
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-    }
-
-    .dialogBtn {
-      display: block;
-      margin: 20px auto 0;
-      padding: 10px 40px;
-      border: none;
-      border-radius: 10px;
-      background-color: #FFD700;
-      color: #0D1B2A;
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .dialogBtn:hover {
-      background-color: #FFC200;
-    }
-
     @font-face {
       font-family: 'HarryPotter';
       src: url('https://fonts.gstatic.com/s/gobold/v6/L0x8DFMxk1MP9K3RvA.woff2');
       font-weight: bold;
       font-style: normal;
+    }
+
+    /* Media Queries for responsiveness */
+
+    @media screen and (max-width: 768px) {
+      .container {
+        max-width: 90%;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      #startQuizBtn,
+      #nextQuestionBtn,
+      .dialogBtn,
+      .product-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+
+      .quizOption {
+        padding: 10px;
+        font-size: 1rem;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      #startQuizBtn,
+      #nextQuestionBtn,
+      .dialogBtn,
+      .product-btn {
+        font-size: 0.9rem;
+      }
+
+      .quizOption {
+        padding: 8px;
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
