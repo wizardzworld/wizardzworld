@@ -1,403 +1,672 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harry Potter Quiz</title>
-  <style>
-    body {
-      font-family: 'Garamond', serif;
-      background-color: #0e1014;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Potter Quiz</title>
+    <style>
+        body {
+            font-family: 'Garamond', serif;
+            background-color: #0e1014;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-    .container {
-      max-width: 700px;
-      background-color: #000;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      padding: 30px;
-      text-align: center;
-    }
+        .container {
+            max-width: 700px;
+            background-color: #000;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            text-align: center;
+        }
 
-    h1 {
-      font-family: 'HarryPotter';
-      font-size: 3.5rem;
-      margin-bottom: 30px;
-      color: #FFD700;
-      text-shadow: 2px 2px 4px #000;
-    }
+        h1 {
+            font-family: 'HarryPotter';
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px #000;
+        }
 
-    #startQuizBtn,
-    #nextQuestionBtn,
-    .dialogBtn,
-    .product-btn {
-      margin-bottom: 20px;
-      padding: 15px 40px;
-      border: none;
-      border-radius: 10px;
-      background-color: #FFD700;
-      color: #0D1B2A;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+        #startQuizBtn,
+        #nextQuestionBtn,
+        .dialogBtn,
+        .product-btn {
+            margin-bottom: 20px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            background-color: #FFD700;
+            color: #0D1B2A;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-    .quizOption {
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      background-color: #3D9970;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-size: 1.2rem;
-    
-    }
+        .quizOption {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #3D9970;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.2rem;
+        }
 
-    .quizDialog {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: rgba(0, 0, 0, 1.9);
-      padding: 10px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      text-align: center;
-      animation: fadeIn 0.5s ease forwards;
-    }
+        .quizDialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 1.9);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
 
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
+        .dialogContent {
+            color: white;
+        }
 
-    @font-face {
-      font-family: 'HarryPotter';
-      src: url('https://fonts.gstatic.com/s/gobold/v6/L0x8DFMxk1MP9K3RvA.woff2');
-      font-weight: bold;
-      font-style: normal;
-    }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
 
-    /* Media Queries for responsiveness */
+            100% {
+                opacity: 1;
+            }
+        }
 
-    @media screen and (max-width: 768px) {
-      .container {
-        max-width: 90%;
-      }
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
 
-      h1 {
-        font-size: 1rem;
-      }
+            100% {
+                opacity: 0;
+            }
+        }
 
-      #startQuizBtn,
-      #nextQuestionBtn,
-      .dialogBtn,
-      .product-btn {
-        padding: 10px 20px;
-        font-size: 1rem;
-      }
+        @font-face {
+            font-family: 'HarryPotter';
+            src: url('https://fonts.gstatic.com/s/gobold/v6/L0x8DFMxk1MP9K3RvA.woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
 
-      .quizOption {
-        padding: 10px;
-        font-size: 1.5rem;
-      }
-    }
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
 
-    @media screen and (max-width: 480px) {
-      .container {
-        padding: 20px;
-      }
+            h1 {
+                font-size: 2rem;
+            }
 
-      h1 {
-        font-size: 2.5rem;
-      }
+            #startQuizBtn,
+            #nextQuestionBtn,
+            .dialogBtn,
+            .product-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
 
-      #startQuizBtn,
-      #nextQuestionBtn,
-      .dialogBtn,
-      .product-btn {
-        font-size: 1.5rem;
-      }
-      
-      .quizQuestion {
-  font-size: 2.5rem; /* Adjust the size as per your preference */
-}
+            .quizOption {
+                padding: 10px;
+                font-size: 1.5rem;
+            }
+        }
 
-      .quizOption {
-        padding: 8px;
-        font-size: 1.9rem;
-      }
-    }
-  </style>
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            #startQuizBtn,
+            #nextQuestionBtn,
+            .dialogBtn,
+            .product-btn {
+                font-size: 1.5rem;
+            }
+
+            .quizQuestion {
+                font-size: 2.5rem;
+            }
+
+            .quizOption {
+                padding: 8px;
+                font-size: 1.9rem;
+            }
+        }
+
+        #quizImage {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .inputField {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            background-color: #ffd700;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Harry Potter Quiz</h1>
-    <button id="startQuizBtn">Start Quiz</button>
-    <div id="quizContent" style="display: none;">
-      <h2><div id="quizQuestion"></div></h2>
-      <div id="quizOptions"></div>
-      <button id="nextQuestionBtn">Next</button>
-      <div id="dialogsContainer">
-        <div id="quizDialog" class="quizDialog">
-          <div id="dialogContent" class="dialogContent"></div><br>
-          <button id="dialogBtn" class="dialogBtn">OK</button>
+    <div class="container">
+        <h1>Harry Potter Quiz</h1>
+        <img src="https://m.media-amazon.com/images/S/stores-image-uploads-eu-prod/9/AmazonStores/A21TJRUUN4KGV/6671abed2b721b3ef05984d642a06831.w1280.h618.jpg" alt="Quiz Image" id="quizImage"><br><br>
+        <div id="inputFields">
+            <input type="text" id="nameInput" class="inputField" placeholder="Enter your name"><br><br>
+            <input type="text" id="instagramInput" class="inputField" placeholder="Enter your Insta Username"><br><br>
         </div>
+        <button id="startQuizBtn">Start Quiz</button>
+        <div id="quizContent" style="display: none;">
+            <h2>
+                <div id="quizQuestion"></div>
+            </h2>
+            <div id="quizOptions"></div>
+            <div id="dialogsContainer">
+                <div id="quizDialog" class="quizDialog">
+                    <div id="dialogContent" class="dialogContent"></div>
+                </div>
 
-        <div id="winDialog" class="quizDialog">
-          <div id="winDialogContent" class="dialogContent"></div>
-          <div id="productContainer" class="product"></div><br>
-          <button id="winDialogBtn" class="dialogBtn">OK</button>
+                <div id="winDialog" class="quizDialog">
+                    <div id="winDialogContent" class="dialogContent"></div>
+                    <div id="productContainer" class="product"></div>
+                    <button id="retakeQuizBtn" class="dialogBtn">Retake Quiz</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-
-  <script>
-    const questions = [
-  {
-    question: "What is the name of Harry Potter's pet owl?",
-    options: ["Hedwig", "Scabbers", "Crookshanks", "Fang"],
-    answer: "Hedwig"
-  },
-  {
-    question: "What is the name of the train station where students catch the Hogwarts Express?",
-    options: ["King's Cross Station", "Paddington Station", "Victoria Station", "Waterloo Station"],
-    answer: "King's Cross Station"
-  },
-  {
-    question: "Who is the headmaster of Hogwarts School of Witchcraft and Wizardry in the first book/movie?",
-    options: ["Professor Snape", "Professor Dumbledore", "Professor McGonagall", "Professor Sprout"],
-    answer: "Professor Dumbledore"
-  },
-  {
-    question: "What is the name of Harry Potter's best friend?",
-    options: ["Hermione Granger", "Draco Malfoy", "Ron Weasley", "Neville Longbottom"],
-    answer: "Ron Weasley"
-  },
-  {
-    question: "What is the name of the sport played on flying broomsticks in the wizarding world?",
-    options: ["Quidditch", "Soccer", "Cricket", "Tennis"],
-    answer: "Quidditch"
-  },
-  {
-    question: "What magical ability do Dementors have?",
-    options: ["Teleportation", "Mind Reading", "Time Travel", "Draining Happiness"],
-    answer: "Draining Happiness"
-  },
-  {
-    question: "Who is known as the 'Half-Blood Prince'?",
-    options: ["Harry Potter", "Tom Riddle", "Severus Snape", "Albus Dumbledore"],
-    answer: "Severus Snape"
-  },
-  {
-    question: "What is the name of the prison guarded by Dementors?",
-    options: ["Azkaban", "Nurmengard", "Gringotts", "Diagon Alley"],
-    answer: "Azkaban"
-  },
-  {
-    question: "Which of these is not one of the Deathly Hallows?",
-    options: ["Elder Wand", "Invisibility Cloak", "Resurrection Stone", "Sorcerer's Stone"],
-    answer: "Sorcerer's Stone"
-  },
-  {
-    question: "What creature can kill with a single look?",
-    options: ["Basilisk", "Thestral", "Acromantula", "Manticore"],
-    answer: "Basilisk"
-  },
-  {
-    question: "Who is the author of the 'Fantastic Beasts and Where to Find Them' textbook?",
-    options: ["Newt Scamander", "Rubeus Hagrid", "Gilderoy Lockhart", "Dolores Umbridge"],
-    answer: "Newt Scamander"
-  },
-  {
-    question: "What type of creature is Buckbeak?",
-    options: ["Dragon", "Hippogriff", "Phoenix", "Unicorn"],
-    answer: "Hippogriff"
-  },
-  {
-    question: "What is the name of the Weasley's house?",
-    options: ["The Burrow", "Hogwarts Castle", "Godric's Hollow", "Malfoy Manor"],
-    answer: "The Burrow"
-  },
-  {
-    question: "Which Hogwarts House does Luna Lovegood belong to?",
-    options: ["Gryffindor", "Hufflepuff", "Ravenclaw", "Slytherin"],
-    answer: "Ravenclaw"
-  },
-  {
-    question: "Who is the head of Slytherin House during Harry's time at Hogwarts?",
-    options: ["Severus Snape", "Lucius Malfoy", "Draco Malfoy", "Horace Slughorn"],
-    answer: "Severus Snape"
-  },
-  {
-    question: "What type of dragon does Harry face in the Triwizard Tournament?",
-    options: ["Hungarian Horntail", "Chinese Fireball", "Swedish Short-Snout", "Common Welsh Green"],
-    answer: "Hungarian Horntail"
-  },
-  {
-    question: "What is the name of the tournament that Harry participates in during 'Goblet of Fire'?",
-    options: ["Triwizard Tournament", "Quidditch World Cup", "The Battle of Hogwarts", "The Yule Ball"],
-    answer: "Triwizard Tournament"
-  },
-  {
-    question: "Who killed Professor Dumbledore?",
-    options: ["Severus Snape", "Tom Riddle", "Bellatrix Lestrange", "Draco Malfoy"],
-    answer: "Severus Snape"
-  },
-  {
-    question: "What is the name of the magical object used to store and view memories?",
-    options: ["Pensieve", "Remembrall", "Sneakoscope", "Deluminator"],
-    answer: "Pensieve"
-  },
-  {
-    question: "What is the form of Remus Lupin's Boggart?",
-    options: ["Dementor", "Moon", "His own corpse", "Fenrir Greyback"],
-    answer: "Full Moon"
-  }
-    ];
-
-    let currentQuestion = 0;
-    let score = 0;
-    const quizContent = document.getElementById('quizContent');
-    const questionDiv = document.getElementById('quizQuestion');
-    const optionsDiv = document.getElementById('quizOptions');
-    const nextBtn = document.getElementById('nextQuestionBtn');
-    const dialog = document.getElementById('quizDialog');
-    const dialogContent = document.getElementById('dialogContent');
-    const dialogBtn = document.getElementById('dialogBtn');
-    const winDialog = document.getElementById('winDialog');
-    const winDialogContent = document.getElementById('winDialogContent');
-    const winDialogBtn = document.getElementById('winDialogBtn');
-
-    // Function to display current question and options
-    function displayQuestion() {
-      questionDiv.textContent = questions[currentQuestion].question;
-      optionsDiv.innerHTML = '';
-      questions[currentQuestion].options.forEach((option) => {
-        const optionDiv = document.createElement('div');
-        optionDiv.classList.add('quizOption');
-        optionDiv.textContent = option;
-        optionDiv.addEventListener('click', () => selectOption(option));
-        optionsDiv.appendChild(optionDiv);
-      });
+    <script>
+        const questions = [
+    {
+        question: "What is the name of Harry Potter's pet owl?",
+        options: ["Scabbers", "Hedwig", "Crookshanks", "Fang"],
+        answer: "Hedwig"
+    },
+    {
+        question: "What is the name of the train station where students catch the Hogwarts Express?",
+        options: ["Paddington Station", "King's Cross Station", "Victoria Station", "Waterloo Station"],
+        answer: "King's Cross Station"
+    },
+    {
+        question: "Who is the headmaster of Hogwarts School of Witchcraft and Wizardry in the first book/movie?",
+        options: ["Professor Snape", "Professor McGonagall", "Professor Dumbledore", "Professor Sprout"],
+        answer: "Professor Dumbledore"
+    },
+    {
+        question: "What is the name of Hermione Granger's cat?",
+        options: ["Mrs. Norris", "Fang", "Crookshanks", "Norbert"],
+        answer: "Crookshanks"
+    },
+    {
+        question: "Which house does Harry Potter belong to at Hogwarts?",
+        options: ["Ravenclaw", "Gryffindor", "Slytherin", "Hufflepuff"],
+        answer: "Gryffindor"
+    },
+    {
+        question: "What is the name of the Weasley family's flying car?",
+        options: ["Knight Bus", "Ford Anglia", "Thestral", "Hogwarts Express"],
+        answer: "Ford Anglia"
+    },
+    {
+        question: "Who is known as the Half-Blood Prince?",
+        options: ["Albus Dumbledore", "Sirius Black", "Severus Snape", "Tom Riddle"],
+        answer: "Severus Snape"
+    },
+    {
+        question: "What is the name of Harry's father?",
+        options: ["Remus Lupin", "Sirius Black", "Peter Pettigrew", "James Potter"],
+        answer: "James Potter"
+    },
+    {
+        question: "What is the name of the magical object that shows the location of its owner?",
+        options: ["Time Turner", "Pensieve", "Invisibility Cloak", "Marauder's Map"],
+        answer: "Marauder's Map"
+    },
+    {
+        question: "Who teaches Defense Against the Dark Arts in Harry's second year at Hogwarts?",
+        options: ["Professor Snape", "Professor Quirrell", "Professor Lupin", "Professor Lockhart"],
+        answer: "Professor Lockhart"
+    },
+    {
+        question: "What is the name of Harry's broomstick?",
+        options: ["Nimbus 2000", "Firebolt", "Comet 260", "Thunderbolt VII"],
+        answer: "Nimbus 2000"
+    },
+    {
+        question: "What is the name of the three-headed dog guarding the Philosopher's Stone?",
+        options: ["Fluffy", "Fang", "Norbert", "Aragog"],
+        answer: "Fluffy"
+    },
+    {
+        question: "What creature does Professor Lupin turn into?",
+        options: ["Werewolf", "Vampire", "Boggart", "Hippogriff"],
+        answer: "Werewolf"
+    },
+    {
+        question: "What does the acronym O.W.L. stand for?",
+        options: ["Ordinary Wizarding Level", "Outstanding Wizard Learning", "Official Wizard License", "Overwhelming Wizard Lore"],
+        answer: "Ordinary Wizarding Level"
+    },
+    {
+        question: "What is the name of the wizarding prison guarded by Dementors?",
+        options: ["Azkaban", "Nurmengard", "Gringotts", "Hogwarts"],
+        answer: "Azkaban"
+    },
+    {
+        question: "Who is the founder of Gryffindor House?",
+        options: ["Godric Gryffindor", "Salazar Slytherin", "Rowena Ravenclaw", "Helga Hufflepuff"],
+        answer: "Godric Gryffindor"
+    },
+    {
+        question: "What is the core of Harry's wand?",
+        options: ["Phoenix Feather", "Dragon Heartstring", "Unicorn Hair", "Veela Hair"],
+        answer: "Phoenix Feather"
+    },
+    {
+        question: "Who is Harry's godfather?",
+        options: ["Remus Lupin", "Sirius Black", "Albus Dumbledore", "Rubeus Hagrid"],
+        answer: "Sirius Black"
+    },
+    {
+        question: "What is the name of Hagrid's pet dragon?",
+        options: ["Norbert", "Smaug", "Toothless", "Falkor"],
+        answer: "Norbert"
+    },
+    {
+        question: "What is the name of the house-elf who serves the Malfoy family?",
+        options: ["Winky", "Dobby", "Kreacher", "Hokey"],
+        answer: "Dobby"
+    },
+    {
+        question: "What is the name of the mermaid village near Hogwarts?",
+        options: ["Black Lake", "Lake Mirkwood", "Merpeople's Cove", "Siren's Cove"],
+        answer: "Black Lake"
+    },
+    {
+        question: "What type of creature is Buckbeak?",
+        options: ["Hippogriff", "Thestral", "Phoenix", "Griffin"],
+        answer: "Hippogriff"
+    },
+    {
+        question: "What is the name of the village where Harry's parents lived?",
+        options: ["Godric's Hollow", "Hogsmeade", "Diagon Alley", "Little Whinging"],
+        answer: "Godric's Hollow"
+    },
+    {
+        question: "What is the name of the tournament held in Harry's fourth year at Hogwarts?",
+        options: ["Triwizard Tournament", "Quidditch World Cup", "Wizarding Games", "Magical Olympics"],
+        answer: "Triwizard Tournament"
+    },
+    {
+        question: "What magical object allows communication between members of the Order of the Phoenix?",
+        options: ["Two-way mirror", "Deluminator", "Extendable Ears", "Portkey"],
+        answer: "Extendable Ears"
+    },
+    {
+        question: "What is the name of the ghost who haunts the girls' bathroom at Hogwarts?",
+        options: ["The Bloody Baron", "The Grey Lady", "Moaning Myrtle", "Nearly Headless Nick"],
+        answer: "Moaning Myrtle"
+    },
+    {
+        question: "What is the name of the Weasley twins' joke shop?",
+        options: ["Zonko's Joke Shop", "Weasley Wizard Wheezes", "Fred and George's Pranks Emporium", "Whimsical Wizardry"],
+        answer: "Weasley Wizard Wheezes"
+    },
+    {
+        question: "What magical device is used to erase memories?",
+        options: ["Memory Charm", "Pensieve", "Obliviate", "Forgetfulness Potion"],
+        answer: "Obliviate"
+    },
+    {
+        question: "What is the name of the giant spider that lives in the Forbidden Forest?",
+        options: ["Aragog", "Norbert", "Fang", "Fluffy"],
+        answer: "Aragog"
+    },
+    {
+        question: "Who is the Potions Master at Hogwarts during Harry's first year?",
+        options: ["Horace Slughorn", "Severus Snape", "Gilderoy Lockhart", "Quirinus Quirrell"],
+        answer: "Severus Snape"
+    },
+    {
+        question: "What is the name of the magical device used to travel through time?",
+        options: ["Time-Turner", "Apparition", "Portkey", "Floo Powder"],
+        answer: "Time-Turner"
+    },
+    {
+        question: "What is the name of the street where the Leaky Cauldron is located?",
+        options: ["Diagon Alley", "Knockturn Alley", "Grimmauld Place", "Privet Drive"],
+        answer: "Diagon Alley"
+    },
+    {
+        question: "What is the name of the giant serpent that resides in the Chamber of Secrets?",
+        options: ["Nagini", "Aragog", "Basilisk", "Norberta"],
+        answer: "Basilisk"
+    },
+    {
+        question: "What type of dragon did Harry face in the Triwizard Tournament's first task?",
+        options: ["Hungarian Horntail", "Swedish Short-Snout", "Chinese Fireball", "Common Welsh Green"],
+        answer: "Hungarian Horntail"
+    },
+    {
+        question: "What is the name of the pub in Hogsmeade frequented by Hogwarts students?",
+        options: ["The Hog's Head", "The Leaky Cauldron", "The Three Broomsticks", "The Hogsmeade Inn"],
+        answer: "The Three Broomsticks"
+    },
+    {
+        question: "What magical object allows communication between members of the DA (Dumbledore's Army)?",
+        options: ["Extendable Ears", "Two-way Mirror", "Galleon Coin", "DA Coin"],
+        answer: "Galleon Coin"
+    },
+    {
+        question: "What type of creature is Dobby?",
+        options: ["House-elf", "Goblin", "Giant", "Pixie"],
+        answer: "House-elf"
+    },
+    {
+        question: "What is the name of the pub in London that serves as the entrance to Diagon Alley?",
+        options: ["The Leaky Cauldron", "The Cauldron Inn", "The Three Broomsticks", "The Hopping Pot"],
+        answer: "The Leaky Cauldron"
+    },
+    {
+        question: "What is the name of the spell used to conjure a Patronus?",
+        options: ["Expecto Patronum", "Alohomora", "Accio", "Lumos"],
+        answer: "Expecto Patronum"
+    },
+    {
+        question: "What is the name of Ron Weasley's pet rat?",
+        options: ["Scabbers", "Wormtail", "Crookshanks", "Pigwidgeon"],
+        answer: "Scabbers"
+    },
+    {
+        question: "What is the name of the wizarding bank in Diagon Alley?",
+        options: ["Gringotts", "Goblin's Gold", "Merlin's Vault", "Wizarding Wealth"],
+        answer: "Gringotts"
+    },
+    {
+        question: "What position does Harry play on the Gryffindor Quidditch team?",
+        options: ["Seeker", "Chaser", "Keeper", "Beater"],
+        answer: "Seeker"
+    },
+    {
+        question: "What type of creature is Buckbeak?",
+        options: ["Hippogriff", "Thestral", "Griffin", "Phoenix"],
+        answer: "Hippogriff"
+    },
+    {
+        question: "What is the name of the magical plant that cries like a baby when it's about to be uprooted?",
+        options: ["Mandrake", "Dirigible Plum", "Whomping Willow", "Devil's Snare"],
+        answer: "Mandrake"
+    },
+    {
+        question: "What is the name of the ghost who is the Gryffindor House's resident ghost?",
+        options: ["The Fat Friar", "Moaning Myrtle", "The Grey Lady", "Nearly Headless Nick"],
+        answer: "Nearly Headless Nick"
+    },
+    {
+        question: "What is the name of the device that records and plays memories?",
+        options: ["Pensieve", "Rememberall", "Deluminator", "Time-Turner"],
+        answer: "Pensieve"
+    },
+    {
+        question: "What does S.P.E.W. stand for?",
+        options: ["Society for the Protection of Elfish Welfare", "Society for the Promotion of Elfish Welfare", "Society of Potions and Elf Work", "Society of Protective Elf Warriors"],
+        answer: "Society for the Promotion of Elfish Welfare"
+    },
+    {
+        question: "What is the name of the magical creature that resembles a horse with a single horn on its forehead?",
+        options: ["Thestral", "Griffin", "Hippogriff", "Unicorn"],
+        answer: "Unicorn"
+    },
+    {
+        question: "What is the name of the spell used to disarm an opponent?",
+        options: ["Expelliarmus", "Stupefy", "Alohomora", "Imperio"],
+        answer: "Expelliarmus"
+    },
+    {
+        question: "What is the name of the dark magical prison guarded by Dementors?",
+        options: ["Azkaban", "Nurmengard", "Gringotts", "Hogwarts"],
+        answer: "Azkaban"
+    },
+    {
+        question: "What is the name of the wizarding school located in France?",
+        options: ["Beauxbatons Academy of Magic", "Durmstrang Institute", "Ilvermorny School of Witchcraft and Wizardry", "Castelobruxo"],
+        answer: "Beauxbatons Academy of Magic"
+    },
+    {
+        question: "What is the name of the house-elf who served the Malfoy family?",
+        options: ["Dobby", "Winky", "Kreacher", "Hokey"],
+        answer: "Dobby"
+    },
+    {
+        question: "What is the name of the spell used to create light at the tip of the wand?",
+        options: ["Lumos", "Nox", "Alohomora", "Accio"],
+        answer: "Lumos"
+    },
+    {
+        question: "What is the name of the broomstick that Hermione Granger uses in the Quidditch World Cup?",
+        options: ["Cleansweep Eleven", "Firebolt", "Nimbus 2000", "Comet 260"],
+        answer: "Cleansweep Eleven"
+    },
+    {
+        question: "What is the name of the potion that allows a person to transform into someone else?",
+        options: ["Polyjuice Potion", "Felix Felicis", "Veritaserum", "Amortentia"],
+        answer: "Polyjuice Potion"
+    },
+    {
+        question: "What is the name of the house-elf who serves the Black family?",
+        options: ["Dobby", "Kreacher", "Winky", "Hokey"],
+        answer: "Kreacher"
+    },
+    {
+        question: "What is the name of the phoenix that belongs to Albus Dumbledore?",
+        options: ["Fawkes", "Aragog", "Norbert", "Buckbeak"],
+        answer: "Fawkes"
+    },
+    {
+        question: "What is the name of the plant that resembles a cactus and can be used in potion-making?",
+        options: ["Mandrake", "Dirigible Plum", "Devil's Snare", "Squill Bulb"],
+        answer: "Dirigible Plum"
+    },
+    {
+        question: "What is the name of the spell used to unlock doors?",
+        options: ["Alohomora", "Expelliarmus", "Expecto Patronum", "Accio"],
+        answer: "Alohomora"
+    },
+    {
+        question: "What is the name of the spell used to summon objects to the caster?",
+        options: ["Accio", "Lumos", "Expelliarmus", "Stupefy"],
+        answer: "Accio"
+    },
+    {
+        question: "What is the name of the magical creature that can turn invisible and is visible only to those who have witnessed death?",
+        options: ["Thestral", "Hippogriff", "Basilisk", "Grindylow"],
+        answer: "Thestral"
     }
+   
+];
 
-    // Function to handle option selection
-    function selectOption(option) {
-      optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
-        opt.removeEventListener('click', () => {});
-        opt.style.pointerEvents = 'none';
-      });
-      if (option === questions[currentQuestion].answer) {
-        showDialog("Correct Answer!", "#32CD32");
-        score++;
-      } else {
-        showDialog("Wrong Answer!", "#FF6347");
-      }
-    }
 
-    // Function to display dialog
-    function showDialog(message, color) {
-      dialogContent.textContent = message;
-      dialogContent.style.color = color;
-      dialog.style.display = 'block';
-    }
+        let currentQuestion = 0;
+        let score = 0;
+        let startTime = 0;
+        let endTime = 0;
+        const nameInput = document.getElementById('nameInput');
+        const instagramInput = document.getElementById('instagramInput');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const quizContent = document.getElementById('quizContent');
+        const questionDiv = document.getElementById('quizQuestion');
+        const optionsDiv = document.getElementById('quizOptions');
+        const dialog = document.getElementById('quizDialog');
+        const dialogContent = document.getElementById('dialogContent');
+        const winDialog = document.getElementById('winDialog');
+        const winDialogContent = document.getElementById('winDialogContent');
+        const retakeQuizBtn = document.getElementById('retakeQuizBtn');
 
-    // Function to close dialog and proceed to next question or show score
-    function closeDialog() {
-      dialog.style.display = 'none';
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayQuestion() {
+            questionDiv.textContent = questions[currentQuestion].question;
+            optionsDiv.innerHTML = '';
+            questions[currentQuestion].options.forEach((option) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('quizOption');
+                optionDiv.textContent = option;
+                optionDiv.addEventListener('click', () => selectOption(option));
+                optionsDiv.appendChild(optionDiv);
+            });
+        }
+
+        function selectOption(option) {
+            optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
+                opt.removeEventListener('click', () => {});
+                opt.style.pointerEvents = 'none';
+            });
+            if (option === questions[currentQuestion].answer) {
+                showDialog("Correct Answer!", "#32CD32");
+                score++;
+            } else {
+                showDialog("Wrong Answer!", "#FF6347");
+            }
+        }
+
+        function showDialog(message, color) {
+            dialogContent.textContent = message;
+            dialogContent.style.color = color;
+            dialog.style.display = 'block';
+            dialog.style.animation = 'fadeIn 0.5s ease forwards';
+            setTimeout(() => {
+                dialog.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => {
+                    dialog.style.display = 'none';
+                    if (currentQuestion < questions.length - 1) {
+                        currentQuestion++;
+                        displayQuestion();
+                    } else {
+                        endTime = Date.now();
+                        const timeTaken = (endTime - startTime) / 1000; // Calculate time taken in seconds
+                        const name = nameInput.value.trim();
+                        const instagramId = instagramInput.value.trim();
+                        showWinDialog(name, instagramId, timeTaken);
+                    }
+                }, 500);
+            }, 1000);
+        }
+
+        function closeDialog() {
+            dialog.style.display = 'none';
+        }
+
         displayQuestion();
-      } else {
-        questionDiv.textContent = `End of Quiz. Your Score: ${score}/${questions.length}`;
-        optionsDiv.innerHTML = '';
-        nextBtn.style.display = 'none';
-        showWinDialog(); // Display "You Win" dialog at the end
-      }
-    }
 
-    // Event listener for next button
-    nextBtn.addEventListener('click', () => {
-      closeDialog();
-    });
+        function showWinDialog(name, instagramId, timeTaken) {
+            const products = [{
+                    name: "Harry Potter Magic Wands",
+                    image: "https://wizardzworld.com/cdn/shop/files/S6e9af013a6114866a699c97b6c692168q.webp?v=1711706961&width=200",
+                    link: "https://wizardzworld.com/products/harry-potter-magic-wands?country=US"
+                },
+                {
+                    name: "Golden Snitch Pocket Watches",
+                    image: "https://cdn.shopify.com/s/files/1/0595/9604/6397/files/S870b5303075742f6901bd88275d6d8150.webp?v=1712129712&width=200",
+                    link: "https://wizardzworld.com/products/hp-themed-pocket-watches?variant=41122661466173"
+                },
+                {
+                    name: "Marauder's Map Pocket Watch",
+                    image: "https://wizardzworld.com/cdn/shop/files/Bronze-The-Marauder-s-Map-Design-Pendant-Pocket-Watch-Old-Fashion-Souvenir-Necklace-Clock-Gifts-for-3558990850.jpg?v=1712129712&width=200",
+                    link: "https://wizardzworld.com/products/new-arrival-map-bronze-quartz-pocket-watch-with-pendant-necklace-men-womens-watches-gift?country=US"
+                },
+                {
+                    name: "Horcrux Pocket Watches!",
+                    image: "https://wizardzworld.com/cdn/shop/files/m_63fa9d966149732373b3cd5d.jpg?v=1712129712&width=200",
+                    link: "https://wizardzworld.com/products/horcrux-pocket-watches?country=US"
+                },
+                {
+                    name: "Deathly Hallows Pendant Necklace",
+                    image: "https://wizardzworld.com/cdn/shop/files/S9df21cec79fb43ad9b9c24cbc28fb743p.webp?v=1712679890&width=200",
+                    link: "https://wizardzworld.com/products/deathly-hallows-pendant-necklace"
+                }
+            ];
 
-    // Event listener for dialog button
-    dialogBtn.addEventListener('click', () => {
-      closeDialog();
-    });
+            const randomProduct = products[Math.floor(Math.random() * products.length)];
 
-    // Display first question on page load
-    displayQuestion();
+            winDialogContent.innerHTML = `
+                <h2>Congratulations, ${name}!</h2>
+                <h4>Your Score: ${score}/${questions.length}</h4>
+                <h4>Time Taken: ${timeTaken} seconds</h4>
+                <h4>Your Instagram ID: ${instagramId}</h4>
+                <h4>You Won Free ${randomProduct.name}</h4>
+                <div id="productContainer" class="product">
+                <img src="${randomProduct.image}" alt="${randomProduct.name}">
+                <br><br><br>
+                <a href="${randomProduct.link}" target="_blank" class="product-btn" style="background-color: #FFC200; color: black; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
+                </div><br>
+            `;
+            winDialog.style.display = 'block';
+        }
 
-    // Additional code for displaying "You Win" dialog with product suggestion
-    const products = [
-      {
-        name: "Harry Potter Magic Wands",
-        image: "https://wizardzworld.com/cdn/shop/files/S6e9af013a6114866a699c97b6c692168q.webp?v=1711706961&width=200",
-        link: "https://wizardzworld.com/products/harry-potter-magic-wands?country=US"
-      },
-      {
-        name: "Golden Snitch Pocket Watches",
-        image: "https://cdn.shopify.com/s/files/1/0595/9604/6397/files/S870b5303075742f6901bd88275d6d8150.webp?v=1712129712&width=200",
-        link: "https://wizardzworld.com/products/hp-themed-pocket-watches?variant=41122661466173"
-      },
-      {
-        name: "Marauder's Map Pocket Watch",
-        image: "https://wizardzworld.com/cdn/shop/files/Bronze-The-Marauder-s-Map-Design-Pendant-Pocket-Watch-Old-Fashion-Souvenir-Necklace-Clock-Gifts-for-3558990850.jpg?v=1712129712&width=200",
-        link: "https://wizardzworld.com/products/new-arrival-map-bronze-quartz-pocket-watch-with-pendant-necklace-men-womens-watches-gift?country=US"
-      },
-      {
-        name: "Horcrux Pocket Watches!",
-        image: "https://wizardzworld.com/cdn/shop/files/m_63fa9d966149732373b3cd5d.jpg?v=1712129712&width=200",
-        link: "https://wizardzworld.com/products/horcrux-pocket-watches?country=US"
-      },
-      {
-        name: "Deathly Hallows Pendant Necklace",
-        image: "https://wizardzworld.com/cdn/shop/files/S9df21cec79fb43ad9b9c24cbc28fb743p.webp?v=1712679890&width=200",
-        link: "https://wizardzworld.com/products/deathly-hallows-pendant-necklace"
-      }
-    ];
+        retakeQuizBtn.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            displayQuestion();
+            winDialog.style.display = 'none';
+            startQuizBtn.style.display = 'block'; // Show Start Quiz button
+            document.getElementById('inputFields').style.display = 'block'; // Show input fields
+            quizContent.style.display = 'none';
+            nameInput.value = '';
+            instagramInput.value = '';
+        });
 
-    // Function to display "You Win" dialog with product suggestion
-    function showWinDialog() {
-      const randomProduct = products[Math.floor(Math.random() * products.length)];
-      winDialogContent.innerHTML = `
-        <h2>Congratulations! You've completed the quiz!</h2>
-        <h4>You Won Free ${randomProduct.name}</h4>
-        <div id="productContainer" class="product">
-          <img src="${randomProduct.image}" alt="${randomProduct.name}">
-          <br><br><br>
-          <a href="${randomProduct.link}" target="_blank" class="product-btn" style="background-color: #FFC200; color: black; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
-        </div><br>
-      `;
-      winDialog.style.display = 'block';
-    }
+        startQuizBtn.addEventListener('click', () => {
+            startTime = Date.now();
+            startQuizBtn.style.display = 'none';
+            document.getElementById('inputFields').style.display = 'none'; // Hide input fields
+            quizContent.style.display = 'block';
 
-    // Event listener for win dialog button
-    winDialogBtn.addEventListener('click', () => {
-      winDialog.style.display = 'none';
-    });
+            // Shuffle the questions and select first 10
+            shuffle(questions);
+            questions.splice(10);
+        });
 
-    // Event listener for start quiz button
-    const startQuizBtn = document.getElementById('startQuizBtn');
-    startQuizBtn.addEventListener('click', () => {
-      startQuizBtn.style.display = 'none'; // Hide start button
-      quizContent.style.display = 'block'; // Show quiz content
-    });
-  </script>
+        winDialog.addEventListener('click', (e) => {
+            if (e.target && e.target.id === 'retakeQuizBtn') {
+                winDialog.style.display = 'none';
+                currentQuestion = 0;
+                score = 0;
+                displayQuestion();
+                startQuizBtn.style.display = 'block'; // Show Start Quiz button
+                document.getElementById('inputFields').style.display = 'block'; // Show input fields
+            }
+        });
+    </script>
 </body>
+
 </html>
