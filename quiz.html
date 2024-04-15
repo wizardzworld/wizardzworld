@@ -166,7 +166,7 @@
             border-radius: 10px;
             border: none;
             background-color: #ffd700;
-            color: #fff;
+            color: #ffd700;
             font-size: 1.2rem;
         }
     </style>
@@ -201,6 +201,11 @@
     </div>
     <script>
         const questions = [
+    {
+        question: "What is the name of Harry Potter's pet owl?",
+        options: ["Scabbers", "Hedwig", "Crookshanks", "Fang"],
+        answer: "Hedwig"
+    },
     {
         question: "What is the name of the train station where students catch the Hogwarts Express?",
         options: ["Paddington Station", "King's Cross Station", "Victoria Station", "Waterloo Station"],
@@ -542,17 +547,21 @@
         }
 
         function selectOption(option) {
-            optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
-                opt.removeEventListener('click', () => {});
-                opt.style.pointerEvents = 'none';
-            });
-            if (option === questions[currentQuestion].answer) {
-                showDialog("Correct Answer!", "#32CD32");
-                score++;
-            } else {
-                showDialog("Wrong Answer!", "#FF6347");
-            }
-        }
+    optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
+        opt.removeEventListener('click', () => {});
+        opt.style.pointerEvents = 'none';
+    });
+    const selectedOption = option.trim().toLowerCase();
+    const correctAnswer = questions[currentQuestion].answer.trim().toLowerCase();
+    if (selectedOption === correctAnswer) {
+        showDialog("Correct Answer!", "#32CD32");
+        score++;
+    } else {
+        showDialog("Wrong Answer!", "#FF6347");
+    }
+}
+
+
 
         function showDialog(message, color) {
             dialogContent.textContent = message;
@@ -641,15 +650,22 @@
         });
 
         startQuizBtn.addEventListener('click', () => {
-            startTime = Date.now();
-            startQuizBtn.style.display = 'none';
-            document.getElementById('inputFields').style.display = 'none'; // Hide input fields
-            quizContent.style.display = 'block';
+    startTime = Date.now();
+    startQuizBtn.style.display = 'none';
+    document.getElementById('inputFields').style.display = 'none'; // Hide input fields
+    quizContent.style.display = 'block';
 
-            // Shuffle the questions and select first 10
-            shuffle(questions);
-            questions.splice(10);
-        });
+    // Shuffle the questions and select first 10
+    shuffle(questions);
+    questions.splice(10);
+
+    // Reset current question and score
+    currentQuestion = 0;
+    score = 0;
+
+    // Display the first question
+    displayQuestion();
+});
 
         winDialog.addEventListener('click', (e) => {
             if (e.target && e.target.id === 'retakeQuizBtn') {
