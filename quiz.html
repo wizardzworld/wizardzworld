@@ -4,35 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Potter Quiz</title>
     <style>
         body {
-            font-family: 'Garamond', serif;
-            background-color: #0e1014;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+        font-family: 'Cormorant Garamond', serif;
+        /* background-color: #f4eee8; */
+        background-image: url('https://i.pinimg.com/564x/5b/15/cd/5b15cd0825e0ba66f0b90102f8d578e3.jpg'); /* Replace 'your_background_image_url.jpg' with the URL of your background image */
+        background-size: cover; /* Ensures the background image covers the entire viewport */
+        background-position: center; /* Centers the background image */
+        color: #3e2723;
+        text-align: center;
+    }
 
         .container {
             max-width: 700px;
-            background-color: #000;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 20px;
             padding: 30px;
             text-align: center;
-        }
-
-        h1 {
-            font-family: 'HarryPotter';
-            font-size: 3.5rem;
-            margin-bottom: 30px;
-            color: #FFD700;
-            text-shadow: 2px 2px 4px #000;
+        
         }
 
         #startQuizBtn,
@@ -43,22 +31,24 @@
             padding: 15px 40px;
             border: none;
             border-radius: 10px;
-            background-color: #FFD700;
-            color: #0D1B2A;
+            background-color: #794726;
+            color: #f2e8df;
             font-size: 1rem;
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
 
         .quizOption {
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            background-color: #3D9970;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 1.2rem;
-        }
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #774a2d;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+    color: #ffffff; /* Set font color to white */
+}
+
 
         .quizDialog {
             display: none;
@@ -66,7 +56,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 1.9);
+            background-color: #eadcd0;
             padding: 10px;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
@@ -75,7 +65,7 @@
         }
 
         .dialogContent {
-            color: white;
+            color: #442a19;
         }
 
         @keyframes fadeIn {
@@ -159,23 +149,59 @@
             height: auto;
             border-radius: 10px;
         }
+        
 
         .inputField {
             margin-bottom: 20px;
             padding: 10px;
             border-radius: 10px;
-            border: none;
-            background-color: #ffd700;
+            border: 2px solid #a1887f;
+            background-color: #d7ccc8;
             color: #000000;
             font-size: 1.2rem;
         }
+        
+         #startQuizBtn {
+        margin: 0 auto;
+    }
+    
+    #winDialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #e8dacd;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    animation: fadeIn 0.5s ease forwards;
+    /* Set a specific width */
+    width: 80%; /* Adjust as needed */
+    max-width: 500px; /* Add a maximum width if needed */
+}
+
+#winDialogContent {
+    color: #452915;
+}
+
+#winDialogContent img {
+    border-radius: 10px; /* Adjust the value to your preference */
+    /* Other CSS styles for the image remain the same */
+}
+
+#retakeQuizBtn {
+    font-family: 'Cormorant Garamond', serif; /* Apply the same font */
+    /* Other CSS styles for the button remain the same */
+}
+
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Harry Potter Quiz</h1>
-        <img src="https://m.media-amazon.com/images/S/stores-image-uploads-eu-prod/9/AmazonStores/A21TJRUUN4KGV/6671abed2b721b3ef05984d642a06831.w1280.h618.jpg" alt="Quiz Image" id="quizImage"><br><br>
+        <img src="https://i.postimg.cc/5NNjkgv6/quiz-2.png" alt="Quiz Image" id="quizImage"><br><br>
         <div id="inputFields">
             <input type="text" id="nameInput" class="inputField" placeholder="Enter your name"><br><br>
             <input type="text" id="instagramInput" class="inputField" placeholder="Enter your Insta Username"><br><br>
@@ -983,10 +1009,10 @@
     const selectedOption = option.trim().toLowerCase();
     const correctAnswer = questions[currentQuestion].answer.trim().toLowerCase();
     if (selectedOption === correctAnswer) {
-        showDialog("Correct Answer!", "#32CD32");
+        showDialog("Correct Answer!", "#036541");
         score++;
     } else {
-        showDialog("Wrong Answer!", "#FF6347");
+        showDialog("Wrong Answer!", "#ab3143");
     }
 }
 
@@ -1060,7 +1086,7 @@
                 <div id="productContainer" class="product">
                 <img src="${randomProduct.image}" alt="${randomProduct.name}">
                 <br><br><br>
-                <a href="${randomProduct.link}" target="_blank" class="product-btn" style="background-color: #FFC200; color: black; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
+                <a href="${randomProduct.link}" target="_blank" class="product-btn" style="background-color: #774a2d; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
                 </div><br>
             `;
             winDialog.style.display = 'block';
