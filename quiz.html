@@ -6,17 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-        font-family: 'Cormorant Garamond', serif;
-        /* background-color: #f4eee8; */
-        background-image: url('https://i.pinimg.com/564x/5b/15/cd/5b15cd0825e0ba66f0b90102f8d578e3.jpg'); /* Replace 'your_background_image_url.jpg' with the URL of your background image */
-        background-size: cover; /* Ensures the background image covers the entire viewport */
-        background-position: center center; /* Centers the background image */
-        color: #3e2723;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    font-family: 'Cormorant Garamond', serif;
+    /* background-color: #f4eee8; */
+    background-image: url('https://i.pinimg.com/564x/5b/15/cd/5b15cd0825e0ba66f0b90102f8d578e3.jpg');
+    background-size: 100% 100%; /* Stretch the background image to cover the entire viewport */
+    background-position: center center;
+    background-attachment: fixed; /* Fix the background image in place */
+    color: #3e2723;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
 
         .container {
             max-width: 700px;
@@ -199,12 +202,58 @@
     /* Other CSS styles for the button remain the same */
 }
 
+/* Default font size for quiz options */
+.quizOption {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #774a2d;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem; /* Default font size */
+    color: #ffffff; /* Set font color to white */
+}
+
+/* Media query for screens up to 768px width */
+@media screen and (max-width: 768px) {
+    .quizOption {
+        font-size: 1rem; /* Reduce font size for smaller screens */
+    }
+}
+
+/* Media query for screens up to 480px width */
+@media screen and (max-width: 480px) {
+    .quizOption {
+        font-size: 0.9rem; /* Further reduce font size for even smaller screens */
+    }
+}
+
+/* Default font size for quiz questions */
+#quizQuestion {
+    font-size: 2rem; /* Default font size */
+}
+
+/* Media query for screens up to 768px width */
+@media screen and (max-width: 768px) {
+    #quizQuestion {
+        font-size: 1.5rem; /* Reduce font size for smaller screens */
+    }
+}
+
+/* Media query for screens up to 480px width */
+@media screen and (max-width: 480px) {
+    #quizQuestion {
+        font-size: 1.2rem; /* Further reduce font size for even smaller screens */
+    }
+}
+
+
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <img src="https://i.postimg.cc/5NNjkgv6/quiz-2.png" alt="Quiz Image" id="quizImage"><br><br>
+    <div class="container"><br><br><br><br>
+        <img src="https://i.postimg.cc/5NNjkgv6/quiz-2.png" alt="Quiz Image" id="quizImage">
         <div id="inputFields">
             <input type="text" id="nameInput" class="inputField" placeholder="Enter your name"><br><br>
             <input type="text" id="instagramInput" class="inputField" placeholder="Enter your Insta Username"><br><br>
@@ -964,7 +1013,58 @@
         question: "What is the name of the magical plant that screams when touched?",
         options: ["Mimbulus Mimbletonia", "Screaming Venom", "Screaming Mandrake", "Mandrake"],
         answer: "Mandrake"
+    },
+    {
+        "question": "What was the name of the Black family's house elf who served the family for generations?",
+        "options": ["Kreacher", "Winky", "Dobby", "Hokey"],
+        "answer": "Kreacher"
+    },
+    {
+        "question": "What spell did Hermione use to fix Harry's glasses in the first book?",
+        "options": ["Obliviate", "Episkey", "Revelio", "Reparo"],
+        "answer": "Obliviate"
+    },
+    {
+        "question": "In 'Harry Potter and the Goblet of Fire', which team did Ireland play against in the Quidditch World Cup finals?",
+        "options": ["England", "Scotland", "Wales", "Bulgaria"],
+        "answer": "Bulgaria"
+    },
+    {
+        "question": "What is the name of the centaur who saves Harry in the Forbidden Forest in 'Harry Potter and the Sorcerer's Stone'?",
+        "options": ["Magorian", "Ronan", "Firenze", "Bane"],
+        "answer": "Firenze"
+    },
+    {
+        "question": "Who was the first known owner of the Invisibility Cloak that eventually came into Harry's possession?",
+        "options": ["Antioch Peverell", "Cadmus Peverell", "Ignotus Peverell", "Egbert the Egregious"],
+        "answer": "Ignotus Peverell"
+    },
+    {
+        "question": "What was the name of the author of 'The Tales of Beedle the Bard'?",
+        "options": ["Bathilda Bagshot", "Albus Dumbledore", "Beedle the Bard", "Hermione Granger"],
+        "answer": "Beedle the Bard"
+    },
+    {
+        "question": "In 'Harry Potter and the Order of the Phoenix', what is the name of the spell that Hermione uses to create fake Galleons for communication with Dumbledore's Army?",
+        "options": ["Flagrate", "Langlock", "Protean Charm", "Impervius"],
+        "answer": "Protean Charm"
+    },
+    {
+        "question": "What is the name of the plant that chews through almost everything in 'Harry Potter and the Chamber of Secrets'?",
+        "options": ["Venomous Tentacula", "Whomping Willow", "Devil's Snare", "Mandrake"],
+        "answer": "Devil's Snare"
+    },
+    {
+        "question": "In 'Harry Potter and the Half-Blood Prince', who was the original owner of the locket Horcrux that Dumbledore and Harry search for?",
+        "options": ["Tom Riddle Sr.", "Marvolo Gaunt", "Salazar Slytherin", "Merope Gaunt"],
+        "answer": "Marvolo Gaunt"
+    },
+    {
+        "question": "What was the name of the potion that saved Ron Weasley's life after he was poisoned in 'Harry Potter and the Half-Blood Prince'?",
+        "options": ["Amortentia", "Draught of Living Death", "Felix Felicis", "Polyjuice Potion"],
+        "answer": "Felix Felicis"
     }
+
 ];
 
 
@@ -1113,9 +1213,9 @@
     document.getElementById('inputFields').style.display = 'none'; // Hide input fields
     quizContent.style.display = 'block';
 
-    // Shuffle the questions and select first 10
+    // Shuffle the questions and select first 15
     shuffle(questions);
-    questions.splice(10);
+    questions.splice(15);
 
     // Reset current question and score
     currentQuestion = 0;
