@@ -249,33 +249,113 @@
             }
         }
 
-        #scoreBanner {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            z-index: 1000;
-        }
+        @keyframes scoreBannerAnimation {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
-        .container {
-            padding-top: 50px;
-        }
+@keyframes scoreBannerAnimation {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#scoreBanner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.0);
+    color: #fff;
+    padding: 20px 10px;
+    text-align: center;
+    z-index: 1000;
+    animation: scoreBannerAnimation 1s ease forwards;
+}
+
+/* Separate styles for each score */
+.scoreItem {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'HarryPotter', sans-serif; /* Harry Potter font */
+    text-transform: uppercase;
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+#questions {
+    background-color: #206fe1; /* Ravenclaw blue */
+    animation: glowing 2s infinite alternate;
+}
+
+#rights {
+    background-color: #036541; /* Slytherin green */
+    animation: glowing 2s infinite alternate-reverse;
+}
+
+#wrongs {
+    background-color: #dd3e57; /* Gryffindor red  */
+    animation: glowing 2s infinite alternate;
+}
+
+#percentage {
+    background-color: #f8ce00; /* Hufflepuff yellow */
+    color: #000; /* Black text color */
+    animation: glowing 2s infinite alternate-reverse;
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.6), 0 0 120px rgba(255, 255, 255, 0.6);
+    }
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .scoreItem {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .scoreItem {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+}
+
+
+
 
     </style>
 </head>
 
 <body>
     <div id="scoreBanner">
-        <span id="questions">Questions: 0/0</span>
-        <span id="rights">Rights: 0</span>
-        <span id="wrongs">Wrongs: 0</span>
-        <span id="percentage">Percentage: 0%</span>
-    </div>
+    <span id="questions" class="scoreItem">Questions: 0/0</span>
+    <span id="rights" class="scoreItem">Rights: 0</span>
+    <span id="wrongs" class="scoreItem">Wrongs: 0</span>
+  
+</div>
+
 
     <div class="container">
         <br><br>
