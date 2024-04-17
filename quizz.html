@@ -297,7 +297,7 @@
 
                 <div id="winDialog" class="quizDialog">
                     <div id="winDialogContent" class="dialogContent"></div>
-                    <div id="productContainer" class="product"></div>
+                    <div id="productContainer" class="product"></div><br>
                     <button id="retakeQuizBtn" class="dialogBtn">Retake Quiz</button>
                 </div>
             </div>
@@ -443,12 +443,12 @@
 
     winDialogContent.innerHTML = `
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <h2>${message}</h2>
-            <p style="font-size: 1.2rem;">Your Score: ${score}/${questions.length} (${percentage}%)</p>
-            <p style="font-size: 1.2rem;">Time Taken: ${timeTaken} seconds</p>
-            <p style="font-size: 1.2rem;">Your Instagram ID: ${instagramId}</p>
-            <p style="font-size: 1.2rem;">${certification}</p>
-            <h3 style="margin-top: 20px;">You've Won:</h3>
+            <h2 style="margin-bottom: 10px;">${message}</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">${certification}</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Your Score: ${score}/${questions.length} (${percentage}%)</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Time Taken: ${timeTaken} seconds</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Your Instagram ID: ${instagramId}</p>
+            <h3 style="margin-top: 20px; margin-bottom: 5px;">You've Won: ${randomProduct.name}</h3>
             <div id="productContainer" class="product" style="margin-top: 10px;">
                 <img src="${randomProduct.image}" alt="${randomProduct.name}" style="max-width: 100%; height: auto;">
                 <br><br><br>
@@ -458,6 +458,7 @@
     `;
     winDialog.style.display = 'block';
 }
+
 
 
 
