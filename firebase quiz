@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Common styles */
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            color: #3e2723;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: 100% 100%;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        /* Mobile styles */
+        @media only screen and (max-width: 768px) {
+            body {
+                background-image: url('https://i.postimg.cc/fTB3rhp4/5b15cd0825e0ba66f0b90102f8d578e3-1-3.jpg');
+                background-size: cover;
+            }
+        }
+
+        /* Desktop styles */
+        @media only screen and (min-width: 769px) {
+            body {
+                background-image: url('https://i.postimg.cc/rmknYWRw/5b15cd0825e0ba66f0b90102f8d578e3-1-4.jpg');
+                background-size: cover;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        #startQuizBtn,
+        #nextQuestionBtn,
+        .dialogBtn,
+        .product-btn {
+            margin-bottom: 20px;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            background-color: #794726;
+            color: #f2e8df;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quizOption {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #774a2d;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        .quizDialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #eadcd0;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .dialogContent {
+            color: #442a19;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @font-face {
+            font-family: 'HarryPotter';
+            src: url('https://fonts.gstatic.com/s/gobold/v6/L0x8DFMxk1MP9K3RvA.woff2');
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 90%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            #startQuizBtn,
+            #nextQuestionBtn,
+            .dialogBtn,
+            .product-btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .quizOption {
+                padding: 10px;
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            #startQuizBtn,
+            #nextQuestionBtn,
+            .dialogBtn,
+            .product-btn {
+                font-size: 1.5rem;
+            }
+
+            .quizQuestion {
+                font-size: 2.5rem;
+            }
+
+            .quizOption {
+                padding: 8px;
+                font-size: 1.9rem;
+            }
+        }
+
+        #quizImage {
+            width: 300px;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .inputField {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #a1887f;
+            background-color: #d7ccc8;
+            color: #000000;
+            font-size: 1.2rem;
+        }
+
+        #startQuizBtn {
+            margin: 0 auto;
+        }
+
+        #winDialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #e8dacd;
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            animation: fadeIn 0.5s ease forwards;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        #winDialogContent {
+            color: #452915;
+        }
+
+        #winDialogContent img {
+            border-radius: 10px;
+        }
+
+        #retakeQuizBtn {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .quizOption {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            background-color: #774a2d;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+        @media screen and (max-width: 768px) {
+            .quizOption {
+                font-size: 1rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .quizOption {
+                font-size: 0.9rem;
+            }
+        }
+
+        #quizQuestion {
+            font-size: 2rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            #quizQuestion {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #quizQuestion {
+                font-size: 1.2rem;
+            }
+        }
+
+        #scoreBanner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .container {
+            padding-top: 50px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div id="scoreBanner">
+        <span id="questions">Questions: 0/0</span>
+        <span id="rights">Rights: 0</span>
+        <span id="wrongs">Wrongs: 0</span>
+        <span id="percentage">Percentage: 0%</span>
+    </div>
+
+    <div class="container">
+        <br><br>
+        <img src="https://i.postimg.cc/5NNjkgv6/quiz-2.png" alt="Quiz Image" id="quizImage">
+        <div id="inputFields">
+            <input type="text" id="nameInput" class="inputField" placeholder="Enter your name"><br><br>
+            <input type="text" id="instagramInput" class="inputField" placeholder="Enter your Insta Username"><br><br>
+        </div>
+        <button id="startQuizBtn">Start Quiz</button>
+        <div id="quizContent" style="display: none;">
+            <h2>
+                <div id="quizQuestion"></div>
+            </h2>
+            <div id="quizOptions"></div>
+            <div id="dialogsContainer">
+                <div id="quizDialog" class="quizDialog">
+                    <div id="dialogContent" class="dialogContent"></div>
+                </div>
+
+                <div id="winDialog" class="quizDialog">
+                    <div id="winDialogContent" class="dialogContent"></div>
+                    <div id="productContainer" class="product"></div><br>
+                    <button id="retakeQuizBtn" class="dialogBtn">Retake Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.4.0/firebase-database.js"></script>
+
+<script>
+  // Your Firebase configuration
+  const firebaseConfig = {
+  apiKey: "AIzaSyCh2r1PLzogMcdRJdRcNcnoVuiDyv47I5o",
+  authDomain: "wizarzdzworld-quiz.firebaseapp.com",
+  databaseURL: "https://wizarzdzworld-quiz-default-rtdb.firebaseio.com",
+  projectId: "wizarzdzworld-quiz",
+  storageBucket: "wizarzdzworld-quiz.appspot.com",
+  messagingSenderId: "237881735518",
+  appId: "1:237881735518:web:05b91c0e03f8fe7476b7cf",
+  measurementId: "G-5KTN0CCS4M"
+};
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+
+</script>
+<script>
+        const questions = [{
+                question: "What is the name of Harry Potter's pet owl?",
+                options: ["Scabbers", "Hedwig", "Crookshanks", "Fang"],
+                answer: "Hedwig"
+            },
+            {
+                question: "What is the name of the train station where students catch the Hogwarts Express?",
+                options: ["Paddington Station", "King's Cross Station", "Victoria Station", "Waterloo Station"],
+                answer: "King's Cross Station"
+            },
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let wrongs = 0;
+        let startTime = 0;
+        let endTime = 0;
+        const nameInput = document.getElementById('nameInput');
+        const instagramInput = document.getElementById('instagramInput');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const quizContent = document.getElementById('quizContent');
+        const questionDiv = document.getElementById('quizQuestion');
+        const optionsDiv = document.getElementById('quizOptions');
+        const dialog = document.getElementById('quizDialog');
+        const dialogContent = document.getElementById('dialogContent');
+        const winDialog = document.getElementById('winDialog');
+        const winDialogContent = document.getElementById('winDialogContent');
+        const retakeQuizBtn = document.getElementById('retakeQuizBtn');
+        const scoreBanner = document.getElementById('scoreBanner');
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function displayQuestion() {
+            questionDiv.textContent = questions[currentQuestion].question;
+            optionsDiv.innerHTML = '';
+            questions[currentQuestion].options.forEach((option) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.classList.add('quizOption');
+                optionDiv.textContent = option;
+                optionDiv.addEventListener('click', () => selectOption(option));
+                optionsDiv.appendChild(optionDiv);
+            });
+        }
+
+        function selectOption(option) {
+            optionsDiv.querySelectorAll('.quizOption').forEach((opt) => {
+                opt.removeEventListener('click', () => {});
+                opt.style.pointerEvents = 'none';
+            });
+            const selectedOption = option.trim().toLowerCase();
+            const correctAnswer = questions[currentQuestion].answer.trim().toLowerCase();
+            if (selectedOption === correctAnswer) {
+                showDialog("Correct Answer!", "#036541");
+                score++;
+            } else {
+                showDialog("Wrong Answer!", "#ab3143");
+                wrongs++;
+            }
+        }
+
+        function showDialog(message, color) {
+            dialogContent.textContent = message;
+            dialogContent.style.color = color;
+            dialog.style.display = 'block';
+            dialog.style.animation = 'fadeIn 0.5s ease forwards';
+            setTimeout(() => {
+                dialog.style.animation = 'fadeOut 0.5s ease forwards';
+                setTimeout(() => {
+                    dialog.style.display = 'none';
+                    if (currentQuestion < questions.length - 1) {
+                        currentQuestion++;
+                        displayQuestion();
+                    } else {
+                        endTime = Date.now();
+                        const timeTaken = (endTime - startTime) / 1000; // Calculate time taken in seconds
+                        const name = nameInput.value.trim();
+                        const instagramId = instagramInput.value.trim();
+                        showWinDialog(name, instagramId, timeTaken);
+                    }
+                }, 500);
+            }, 1000);
+        }
+
+        function closeDialog() {
+            dialog.style.display = 'none';
+        }
+
+        displayQuestion();
+
+        function showWinDialog(name, instagramId, timeTaken) {
+    const percentage = ((score / questions.length) * 100).toFixed(2);
+    let message;
+    let certification;
+    if (percentage >= 80) {
+        message = `Congratulations, ${name}!`;
+        certification = `You are a true Potterhead and have earned the Certified Potterhead certification!`;
+    } else {
+        message = `Nice try, ${name}.`;
+        certification = `You are not qualified to become a certified Potterhead this time. Better luck next time!`;
+    }
+
+    const products = [
+        {
+            name: "Harry Potter Magic Wands",
+            image: "https://wizardzworld.com/cdn/shop/files/S6e9af013a6114866a699c97b6c692168q.webp?v=1711706961&width=200",
+            link: "https://wizardzworld.com/products/harry-potter-magic-wands?country=US"
+        },
+        {
+            name: "Golden Snitch Pocket Watches",
+            image: "https://cdn.shopify.com/s/files/1/0595/9604/6397/files/S870b5303075742f6901bd88275d6d8150.webp?v=1712129712&width=200",
+            link: "https://wizardzworld.com/products/hp-themed-pocket-watches?variant=41122661466173"
+        },
+        {
+            name: "Marauder's Map Pocket Watch",
+            image: "https://wizardzworld.com/cdn/shop/files/Bronze-The-Marauder-s-Map-Design-Pendant-Pocket-Watch-Old-Fashion-Souvenir-Necklace-Clock-Gifts-for-3558990850.jpg?v=1712129712&width=200",
+            link: "https://wizardzworld.com/products/new-arrival-map-bronze-quartz-pocket-watch-with-pendant-necklace-men-womens-watches-gift?country=US"
+        },
+        {
+            name: "Horcrux Pocket Watches!",
+            image: "https://wizardzworld.com/cdn/shop/files/m_63fa9d966149732373b3cd5d.jpg?v=1712129712&width=200",
+            link: "https://wizardzworld.com/products/horcrux-pocket-watches?country=US"
+        },
+        {
+            name: "Deathly Hallows Pendant Necklace",
+            image: "https://wizardzworld.com/cdn/shop/files/S9df21cec79fb43ad9b9c24cbc28fb743p.webp?v=1712679890&width=200",
+            link: "https://wizardzworld.com/products/deathly-hallows-pendant-necklace"
+        }
+    ];
+
+    const randomProduct = products[Math.floor(Math.random() * products.length)];
+
+    winDialogContent.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <h2 style="margin-bottom: 10px;">${message}</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">${certification}</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Your Score: ${score}/${questions.length} (${percentage}%)</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Time Taken: ${timeTaken} seconds</p>
+            <p style="font-size: 1.2rem; margin-bottom: 5px;">Your Instagram ID: ${instagramId}</p>
+            <h3 style="margin-top: 20px; margin-bottom: 5px;">You've Won: ${randomProduct.name}</h3>
+            <div id="productContainer" class="product" style="margin-top: 10px;">
+                <img src="${randomProduct.image}" alt="${randomProduct.name}" style="max-width: 100%; height: auto;">
+                <br><br><br>
+                <a href="${randomProduct.link}" target="_blank" class="product-btn" style="background-color: #774a2d; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px;">Claim Reward</a>
+            </div>
+        </div>
+    `;
+    // Display win dialog
+            document.getElementById('winDialog').style.display = 'block';
+
+            // Save user data to Firebase Realtime Database
+            firebase.database().ref('quizResults').push({
+                name: name,
+                percentage: percentage,
+                instagramId: instagramId,
+                timeTaken: timeTaken
+            });
+        
+}
+
+
+
+        retakeQuizBtn.addEventListener('click', () => {
+            currentQuestion = 0;
+            score = 0;
+            wrongs = 0;
+            displayQuestion();
+            winDialog.style.display = 'none';
+            startQuizBtn.style.display = 'block';
+            document.getElementById('inputFields').style.display = 'block';
+            quizContent.style.display = 'none';
+            nameInput.value = '';
+            instagramInput.value = '';
+            scoreBanner.style.display = 'none';
+        });
+
+        startQuizBtn.addEventListener('click', () => {
+            startTime = Date.now();
+            startQuizBtn.style.display = 'none';
+            document.getElementById('inputFields').style.display = 'none';
+            quizContent.style.display = 'block';
+            scoreBanner.style.display = 'block';
+            shuffle(questions);
+            questions.splice(15);
+            currentQuestion = 0;
+            score = 0;
+            wrongs = 0;
+            displayQuestion();
+        });
+
+        function updateScoreBanner() {
+            const questionsElement = document.getElementById('questions');
+            const rightsElement = document.getElementById('rights');
+            const wrongsElement = document.getElementById('wrongs');
+            const percentageElement = document.getElementById('percentage');
+            questionsElement.textContent = `Questions: ${currentQuestion + 1}/${questions.length}`;
+            rightsElement.textContent = `Rights: ${score}`;
+            wrongsElement.textContent = `Wrongs: ${wrongs}`;
+            percentageElement.textContent = `Percentage: ${((score / (currentQuestion + 1)) * 100).toFixed(2)}%`;
+        }
+
+        setInterval(updateScoreBanner, 100);
+        
+        
+
+    </script>
+</body>
+
+</html>
